@@ -1,1 +1,1 @@
-web gunicorn nyc-collision-forecast:app
+web: gunicorn nyc-collision-forecast:app
