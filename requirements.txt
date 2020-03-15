@@ -1,0 +1,16 @@
+Django==3.0.2
+django-heroku==0.3.1
+Flask==1.0.2
+gunicorn==20.0.4
+itsdangerous==1.1.0
+Jinja2==2.10.1
+matplotlib==3.0.3
+numpy==1.16.3
+pandas==0.24.2
+requests==2.21.0
+scikit-image==0.15.0
+scikit-learn==0.20.3
+simplejson==3.17.0
+uszipcode==0.2.4
+Werkzeug==0.15.2
+

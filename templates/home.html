@@ -1,0 +1,35 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<div  style="background-image: url('/static/img/background.png'); background-repeat:no-repeat; background-position:right;"
+<hr class="m-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center">
+      <div class="w-100">
+        <h2 class="mb-5">NYC Motor Vehicle Collision Forecast</h2>
+
+        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+          <div class="resume-content">
+            <form action="{{url_for('predict')}}" method="POST">
+			  <p><b>Please input the last week's date below:</b></p>
+			  <input type="text" name="namequery" placeholder="2020-03-07"></input>
+			  <button type="submit" class="btn btn-primary">Predict</button>
+			</form>    
+          </div>
+        </div>
+
+        <div class="resume-item d-flex flex-column flex-md-row justify-content-between">
+          <div class="resume-content">
+            <h4 class="mb-4">The collision number one week after <font color="blue">{{input_date}}</font> is
+			<h5 class="mb-5">Manhattan :<font color="red"> {{manhattan_prediction}}</font></h5>
+			<h5 class="mb-5">Brooklyn :<font color="red"> {{brooklyn_prediction}}</font></h5> 
+			<h5 class="mb-5">Queens :<font color="red"> {{queens_prediction}}</font></h5>
+			<h5 class="mb-5">Staten Island :<font color="red"> {{staten_island_prediction}}</font></h5>
+			<h5 class="mb-5">Bronx :<font color="red"> {{bronx_prediction}}</font></h5>
+          </div>         
+        </div>
+
+      </div>
+    </section>
+</div>
+{%endblock%}
