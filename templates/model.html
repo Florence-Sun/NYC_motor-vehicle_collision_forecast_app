@@ -7,35 +7,43 @@
         <h2 class="mb-5">Model Details</h2>
 		<h4 class="mb-2">Data Resource</h4>
         <p><b>The data come from <a href="https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95">NYC OpenData</a> 
-			  which contains information from all police reported motor vehicle collisions in NYC. The dataset is updated on Sunday weekly. 
-			  It should be mentioned that the crash records only contain someone is injured or killed, or at least $1000 worth of damage.</b></p>
-        <h4 class="mb-2">Model process</h4>
+			  which contains information from all police reported motor vehicle collisions in NYC. The dataset is updated weekly every Sunday. 
+			  It should be mentioned that the crash records only contain accidents where someone was injured or killed, or had at least $1000 worth of damage.</b></p>        
+		
+		<h4 class="mb-2">Model process</h4>
+		
 		<h5 class="mb-2">1. Modeling drift</h5>
-		<p><b>Use Manhattan as an example. Below shows crash numbers each day in Manhattan, which has a slightly decreasing trend.</b></p>
+		<p><b>The first step in my model is fitting the drift/trend to the time series. I am using Manhattan as an example. 
+			  The plot below shows crash numbers each day in Manhattan and the time series has a slightly decreasing trend.</b></p>
 		<img class="mb-5" src="/static/img/bokeh_plot.png" alt="Total crash numbers per day in Manhattan" width="800" height="350">
 		<h5 class="mb-2">2. Modeling seasonality</h5>
-		<p><b>Obviously, it has seasonality inside the data. Any periodic signal can be represented as the sum of a number of 
-		      sine waves with varying amplitude, phase and frequency. Therefore, Fourier analysis is usd to find the periods. 
-			  Any strong signals such as peaks in the frequency domain represent some periodic behaviors in the time domain.
-			  According to the location of peaks, the crash numbers have yearly, half-yearly, weekly, midweekly(the middle of a week) seasonalities.</b></p>
+		<p><b>The second step of my model is modeling the seasonality in the time series. Any periodic signal can be represented as 
+			  the sum of a number of sine and cosine waves with varying amplitude, phase and frequency. Fourier analysis is used to find the periods. 
+			  Any strong signals, peaks in the frequency domain, represent periodic behavior in the time domain. 
+			  According to the location of the peaks in crash reports data, the crash numbers have yearly, half-yearly, weekly, and half-weekly seasonalities.</b></p>
 		<img class="mb-5" src="/static/img/FFT.png" alt="FFT Plot" width="800" height="300">
-		<p><b>Therefore, several sin(t/T) and cos(t/T) features were added as features where T is periodity to feed into the linear regression model.</b></p>
+		<p><b>Therefore, several sin(t/T) and cos(t/T) features were added (where T is the period identified with Fourier analysis) and fed into a linear regression model.</b></p>
 		<h5 class="mb-2">3. Modeling Results</h5>
-		<p><b>Plots below show the actural collision numbers and predict collision numbers in Manhattan, Brooklyn, Queens, Staten Island and Bronx, respectively.</b></p>
+		<p><b>The final model combines the trend and the seasonality. Plots below show the actual collision numbers and predicted collision numbers in Manhattan, Brooklyn, Queens, Staten Island and Bronx, respectively.</b></p>
 		<img class="mb-2" src="/static/img/manhattan.png" alt="actural and predict in manhattan" width="800" height="350">
 		<img class="mb-2" src="/static/img/brooklyn.png" alt="actural and predict in brooklyn" width="800" height="350">
 		<img class="mb-2" src="/static/img/queens.png" alt="actural and predict in queens" width="800" height="350">
 		<img class="mb-2" src="/static/img/staten_island.png" alt="actural and predict in staten island" width="800" height="350">
 		<img class="mb-2" src="/static/img/bronx.png" alt="actural and predict in bronx width="800" height="350">
-		<h5 class="mb-2">4. Conclusion</h5>
-		<li><b>The model doesn't fit very well during holiday season in Manhattan, Brooklyn and Queens, but not bad in Staten Island and Bronx.
-			   The main possible reason is that people' behaviors change in the holiday season. Many people go traveling to Manhattan, Queens and 
-			   Brooklyn. Due to the more crowded people in the street, less people drive. Therefore, the collision numbers drop. The r2 score is around
-			   0.2.<b></li>
-		<li><b>One significent discovery is that collision not only has weekly, yearly seasonalities, but also midweekly seasonality, which means that
-			   in the middle of a week, the collision has a peak. The result indicates drivers should also pay more attention when driving 
-			   in the middle of a week.</b></li>
-      </div>
+		<li><b>The model performance to predict the whole NYC collision numbers is quite good with R^2 score of 0.5.
+			   But when predicting the collision numbers in the 5 boroughs seperately, due to less data for each borough, the model performance
+			   is decreasing with cross-validation R^2 score of 0.25, 0.24, 0.16, 0.15 and 0.3 for Manhattan, Brooklyn, Queens, Staten Island and Bronx, respectively. 
+			   The models capture the main patterns in the data.<b></li>
+		<li><b>The model however doesn’t make good predictions during the holiday season (late December) in Manhattan, Brooklyn and Queens. 
+			   The predictions during that time are a bit better in Staten Island and Bronx. 
+			   The main possible reason is that people’s behavior changes in the holiday season. 
+			   It could be that due to the increased number of tourists in Manhattan, Queens and Brooklyn, 
+			   the streets are more crowded with people and fewer people drive, therefore the collision numbers drop.<b></li>
+		<li><b>One significent discovery is that collision not only has weekly, yearly seasonalities, but also half-weekly seasonality, 
+			   which indicates drivers should also pay more attention when driving on Wednesday.</b></li>
+	    <li><b>Wordcloud plot shows the reason for collision. The mainly reasons are "inattention distraction", "following closely" and "failure yield".<b></li>
+        <img class="mb-2" src="/static/img/reason.png" alt="reason for collision" width="800" height="350">
+	  </div>
     </section
 
 {%endblock%}
