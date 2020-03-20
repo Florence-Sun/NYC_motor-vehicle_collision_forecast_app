@@ -12,5 +12,5 @@ scikit-image==0.15.0
 scikit-learn==0.20.3
 simplejson==3.17.0
 uszipcode==0.2.4
-Werkzeug==0.15.2
+Werkzeug==0.15.3
 
